@@ -1,7 +1,9 @@
 <?php
 
+# copied from https://github.com/Automattic/vip-go-mu-plugins/blob/develop/files/class-wp-filesystem-vip.php
+
 require_once ABSPATH . 'wp-admin/includes/class-wp-filesystem-base.php';
-require_once ABSPATH . 'wp-admin/includes/class-wp-filesystem-direct
+require_once ABSPATH . 'wp-admin/includes/class-wp-filesystem-direct.php';
 
 class WP_Filesystem_Mountpoint_S3_Uploads extends WP_Filesystem_Direct {
 
