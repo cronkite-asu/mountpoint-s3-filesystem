@@ -1,6 +1,6 @@
 <?php
 
-# copied from https://github.com/Automattic/vip-go-mu-plugins/blob/develop/files/class-wp-filesystem-vip.php
+# copied from https://github.com/Automattic/vip-go-mu-plugins/blob/develop/files/class-wp-filesystem-vip-uploads.php
 
 require_once ABSPATH . 'wp-admin/includes/class-wp-filesystem-base.php';
 require_once ABSPATH . 'wp-admin/includes/class-wp-filesystem-direct.php';
@@ -8,20 +8,15 @@ require_once ABSPATH . 'wp-admin/includes/class-wp-filesystem-direct.php';
 class WP_Filesystem_Mountpoint_S3_Uploads extends WP_Filesystem_Direct {
 
 	/**
-	 * Unimplemented - Set the access and modification times of a file.
+	 * Constructor.
 	 *
-	 * Note: If $file doesn't exist, it will be created.
+	 * @since 1.0.0
 	 *
-	 * @param string $file Path to file.
-	 * @param int $time Optional. Modified time to set for file.
-	 *                      Default 0.
-	 * @param int $atime Optional. Access time to set for file.
-	 *                      Default 0.
-	 *
-	 * @return bool Whether operation was successful or not.
+	 * @param mixed $arg Not used.
 	 */
-	public function touch( $file, $time = 0, $atime = 0 ) {
-		return $this->handle_unimplemented_method( __METHOD__ );
+	public function __construct( $arg ) {
+		$this->method = 'mountpoint-s3-upload';
+		$this->errors = new WP_Error();
 	}
 
 	/**
