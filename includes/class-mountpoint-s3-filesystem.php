@@ -30,6 +30,11 @@
 class Mountpoint_S3_Filesystem {
 
 	/**
+	 * Max length allowed for file paths in the Files Service.
+	 */
+	const MAX_FILE_PATH_LENGTH = 1024;
+
+	/**
 	 * The loader that's responsible for maintaining and registering all hooks that power
 	 * the plugin.
 	 *
@@ -215,4 +220,16 @@ class Mountpoint_S3_Filesystem {
 		return $this->version;
 	}
 
+	/**
+	 * Check if file path in within the allowed length.
+	 *
+	 * @param  string  Path starting with /wp-content/uploads
+	 */
+	protected function validate_file_path_length( $file_path ) {
+		if ( mb_strlen( $file_path ) > self::MAX_FILE_PATH_LENGTH ) {
+			return new WP_Error( 'path-too-long', sprintf( 'The file name and path cannot exceed %d characters. Please rename the file to something shorter and try again.', self::MAX_FILE_PATH_LENGTH ) );
+		}
+
+		return true;
+	}
 }
