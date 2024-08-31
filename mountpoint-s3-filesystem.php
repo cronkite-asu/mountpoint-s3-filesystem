@@ -42,6 +42,15 @@ if ( ! defined( 'WPINC' ) ) {
 define( 'MOUNTPOINT_S3_FILESYSTEM_VERSION', '1.0.0' );
 
 /**
+ * Enable S3 Filesystem.
+ * To enable set to true in wp-config.php
+ * Default to false for other environments, e.g. local development.
+ */
+if ( ! defined( 'WORDPRESS_S3_FS' ) ) {
+	define( 'WORDPRESS_S3_FS', false );
+}
+
+/**
  * The code that runs during plugin activation.
  * This action is documented in includes/class-mountpoint-s3-filesystem-activator.php
  */
