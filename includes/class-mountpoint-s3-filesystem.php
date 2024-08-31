@@ -30,11 +30,6 @@
 class Mountpoint_S3_Filesystem {
 
 	/**
-	 * Max length allowed for file paths in the Files Service.
-	 */
-	const MAX_FILE_PATH_LENGTH = 1024;
-
-	/**
 	 * The loader that's responsible for maintaining and registering all hooks that power
 	 * the plugin.
 	 *
@@ -63,6 +58,24 @@ class Mountpoint_S3_Filesystem {
 	protected $version;
 
 	/**
+	 * Filesystem to use to override.
+	 *
+	 * @since    1.0.0
+	 * @access   protected
+	 * @var      string    $filesystem_method    The filesystem to use.
+	 */
+	protected $filesystem_method = 'Mountpoint_S3';
+
+	/**
+	 * Max length allowed for file paths in the Files Service.
+	 *
+	 * @since    1.0.0
+	 * @access   protected
+	 * @var      number    $max_file_path_length    The max length of file path.
+	 */
+	protected $max_file_path_length = 1024;
+
+	/**
 	 * Define the core functionality of the plugin.
 	 *
 	 * Set the plugin name and the plugin version that can be used throughout the plugin.
@@ -81,6 +94,7 @@ class Mountpoint_S3_Filesystem {
 
 		$this->load_dependencies();
 		$this->set_locale();
+		$this->set_filesystem();
 		$this->define_admin_hooks();
 		$this->define_public_hooks();
 
@@ -117,6 +131,12 @@ class Mountpoint_S3_Filesystem {
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-mountpoint-s3-filesystem-i18n.php';
 
 		/**
+		 * The file responsible for defining filesystem functionality
+		 * of the plugin.
+		 */
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-wp-filesystem-mountpoint-s3.php';
+
+		/**
 		 * The class responsible for defining all actions that occur in the admin area.
 		 */
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-mountpoint-s3-filesystem-admin.php';
@@ -126,6 +146,8 @@ class Mountpoint_S3_Filesystem {
 		 * side of the site.
 		 */
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/class-mountpoint-s3-filesystem-public.php';
+
+		require_once ABSPATH . 'wp-admin/includes/class-wp-filesystem-base.php';
 
 		$this->loader = new Mountpoint_S3_Filesystem_Loader();
 
@@ -149,6 +171,28 @@ class Mountpoint_S3_Filesystem {
 	}
 
 	/**
+	 * Init the filesystem.
+	 *
+	 * Register the filesystem with WordPress.
+	 *
+	 * @since    1.0.0
+	 * @access   private
+	 */
+	private function set_filesystem() {
+		if ( ! defined( 'WP_RUN_CORE_TESTS' ) || ! WP_RUN_CORE_TESTS ) {
+			$this->loader->add_filter( 'filesystem_method', $this, 'get_filesystem_method', PHP_INT_MAX );
+		}
+
+		$this->loader->add_filter( 'request_filesystem_credentials', $this, 'get_filesystem_credentials', PHP_INT_MAX, 3 );
+		$this->loader->add_filter( 'sanitize_file_name', $this, 'sanitize_filename' );
+
+		// Should't need this because we `require`-ed the class already.
+		// But just in case :)
+		$this->loader->add_filter( 'filesystem_method_file', $this, 'get_filesystem_method_file', PHP_INT_MAX, 2 );
+
+	}
+
+	/**
 	 * Register all of the hooks related to the admin area functionality
 	 * of the plugin.
 	 *
@@ -161,6 +205,7 @@ class Mountpoint_S3_Filesystem {
 
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
+		$this->loader->add_filter( 'sanitize_file_name', $plugin_admin, 'enqueue_scripts' );
 
 	}
 
@@ -221,15 +266,146 @@ class Mountpoint_S3_Filesystem {
 	}
 
 	/**
+	 * Validate the file before we allow uploading it.
+	 *
+	 * @param  string[]  An array of data for a single file.
+	 */
+	public function filter_validate_file( $file_name ) {
+		$upload_path = trailingslashit( wp_get_upload_dir()['subdir'] );
+		$file_path   = $upload_path . $file_name;
+
+		$check_file_name = $this->validate_s3_key( $file_path );
+		if ( is_wp_error( $check_file_name ) ) {
+			$file['error'] = $check_file_name->get_error_message();
+
+			return $file;
+		}
+
+		$check_length = $this->validate_file_path_length( $file_path );
+		if ( is_wp_error( $check_length ) ) {
+			$file['error'] = $check_length->get_error_message();
+
+			return $file;
+		}
+
+		return $file;
+	}
+
+	/**
 	 * Check if file path in within the allowed length.
 	 *
-	 * @param  string  Path starting with /wp-content/uploads
+	 * @param   string   $file_path   Path of file within /wp-content/uploads folder
 	 */
 	protected function validate_file_path_length( $file_path ) {
-		if ( mb_strlen( $file_path ) > self::MAX_FILE_PATH_LENGTH ) {
-			return new WP_Error( 'path-too-long', sprintf( 'The file name and path cannot exceed %d characters. Please rename the file to something shorter and try again.', self::MAX_FILE_PATH_LENGTH ) );
+		if ( mb_strlen( $file_path ) > $this->max_file_path_length ) {
+			return new WP_Error( 'path-too-long', sprintf( 'The file name and path cannot exceed %d characters. Please rename the file to something shorter and try again.', $this->max_file_path_length ) );
 		}
 
 		return true;
 	}
+
+	/**
+	 * Check if file path uses S3 safe characters.
+	 *
+	 * @since   1.0.0
+	 * @access  protected
+	 *
+	 * @param   string   $file_path   Path of file within /wp-content/uploads folder
+	 */
+	protected function validate_s3_key( $file_path ) {
+		// Match Safe characters from S3 object naming guidelines.
+		$pattern = '/^[a-zA-Z0-9()!*\'\/._-]+[^.]$/';
+		if ( ! preg_match($pattern, $filename) ) {
+			return new WP_Error( 'invalid-file-name', sprintf( 'The file name or path contains unsafe characters. Please rename the file to something safe for AWS S3 key names.', $file_path ) );
+		}
+
+		return true;
+	}
+
+	/**
+	 * Make sure the returned filename is allowed on all file systems.
+	 *
+	 * @param string  $file_name
+	 *
+	 * @return string Transliterated filename
+	 */
+	public function sanitize_filename( $file_name ) {
+		if ( 'ASCII' !== mb_detect_encoding( $file_name ) ) {
+			// convert $text to ASCII
+			$step1 = iconv( mb_detect_encoding( $file_name ), 'ASCII//TRANSLIT', $file_name );
+			// replace spaces and unknown characters with hyphens
+			$step2 = sanitize_file_name( $step1 );
+			$text = $step2;
+		}
+
+		return $text;
+	}
+
+	/**
+	 * With the filters below, our override should load automatically when `WP_Filesystem()` is called.
+	 *
+	 * Here is sample code on how to use $wp_filesystem:
+	 *
+	 *      global $wp_filesystem;
+	 *      if ( ! is_a( $wp_filesystem, 'WP_Filesystem_Base') ){
+	 *          $creds = request_filesystem_credentials( site_url()
+	 *          wp_filesystem($creds);
+	 *      }
+	 *      $wp_filesystem->put_contents( wp_get_upload_dir()['basedir'] . '/test.txt', 'this is a test file');
+	 *
+	 */
+	// Note: we're using `PHP_INT_MAX` for the priority because we want our `WP_Filesystem_Mountpoint_S3` class to always take precedence.
+
+	/**
+	 * Retrieve the filesystem method of the plugin.
+	 *
+	 * @since     1.0.0
+	 * @return    string    The filesystem method.
+	 */
+	public function get_filesystem_method() {
+		return $this->filesystem_method; // The Mountpoint_S3 base class transparently handles using the direct filesystem as well as Mountpoint S3.
+	}
+
+	/**
+	 * Retrieve the filesystem method file path.
+	 *
+	 * @since     1.0.0
+	 * @return    string    The filesystem method file.
+	 */
+	public function get_filesystem_method_file( $file, $method ) {
+		return $this->filesystem_method; // The Mountpoint_S3 base class transparently handles using the direct filesystem as well as Mountpoint S3.
+		if ( $this->filesystem_method === $method ) {
+			$file = plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-wp-filesystem-mountpoint-s3.php';
+		}
+		return $file;
+	}
+
+	/**
+	 * Get file system credentials.
+	 *
+	 * @param array   $credentials
+	 * @param string  $form_post
+	 * @param string  $type
+	 *
+	 * @return array The filled credentials
+	 */
+	public function get_filesystem_credentials( $credentials, $form_post, $type ) {
+		// Handle the default `''` case which we'll override thanks to the `filesystem_method` filter.
+		if ( '' === $type || $this->filesystem_method === $type ) {
+			if ( defined( 'WORDPRESS_S3_FS' ) && true === WORDPRESS_S3_FS ) {
+				$credentials = [
+					new WP_Filesystem_Mountpoint_S3_Uploads( null ),
+					new WP_Filesystem_Direct( null ),
+				];
+			} else {
+				// When not on Mountpoint S3 we'll pass direct to both. This means we'll still filter uploads folder but use direct regardless.
+				$credentials = [
+					new WP_Filesystem_Direct( null ),
+					new WP_Filesystem_Direct( null ),
+				];
+			}
+		}
+		return $credentials;
+	}
+
 }
