@@ -33,7 +33,7 @@ class WP_Filesystem_Mountpoint_S3_Uploads extends WP_Filesystem_Direct {
 	 * @return bool Whether operation was successful or not.
 	 */
 	public function touch( $file, $time = 0, $atime = 0 ) {
-		return $this->handle_unimplemented_method( __METHOD__ );
+		return $this->handle_unimplemented_method( __METHOD__, true );
 	}
 
 	/**
@@ -46,7 +46,7 @@ class WP_Filesystem_Mountpoint_S3_Uploads extends WP_Filesystem_Direct {
 	 * @return bool Returns true on success or false on failure.
 	 */
 	public function chgrp( $file, $group, $recursive = false ) {
-		return $this->handle_unimplemented_method( __METHOD__ );
+		return $this->handle_unimplemented_method( __METHOD__, true );
 	}
 
 	/**
@@ -60,7 +60,7 @@ class WP_Filesystem_Mountpoint_S3_Uploads extends WP_Filesystem_Direct {
 	 * @return bool Returns true on success or false on failure.
 	 */
 	public function chmod( $file, $mode = false, $recursive = false ) {
-		return $this->handle_unimplemented_method( __METHOD__ );
+		return $this->handle_unimplemented_method( __METHOD__, true );
 	}
 
 	/**
@@ -74,7 +74,7 @@ class WP_Filesystem_Mountpoint_S3_Uploads extends WP_Filesystem_Direct {
 	 * @return bool Returns true on success or false on failure.
 	 */
 	public function chown( $file, $owner, $recursive = false ) {
-		return $this->handle_unimplemented_method( __METHOD__ );
+		return $this->handle_unimplemented_method( __METHOD__, true );
 	}
 
 	protected function handle_unimplemented_method( $method, $return_value = false ) {
