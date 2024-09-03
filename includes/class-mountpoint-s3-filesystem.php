@@ -335,10 +335,10 @@ class Mountpoint_S3_Filesystem {
 			$step1 = iconv( mb_detect_encoding( $file_name ), 'ASCII//TRANSLIT', $file_name );
 			// replace spaces and unknown characters with hyphens
 			$step2 = sanitize_file_name( $step1 );
-			$text = $step2;
+			$file_name = $step2;
 		}
 
-		return $text;
+		return $file_name;
 	}
 
 	/**
