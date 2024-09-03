@@ -205,7 +205,6 @@ class Mountpoint_S3_Filesystem {
 
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
-		$this->loader->add_filter( 'sanitize_file_name', $plugin_admin, 'enqueue_scripts' );
 
 	}
 
@@ -266,79 +265,23 @@ class Mountpoint_S3_Filesystem {
 	}
 
 	/**
-	 * Validate the file before we allow uploading it.
-	 *
-	 * @param  string[]  An array of data for a single file.
-	 */
-	public function filter_validate_file( $file_name ) {
-		$upload_path = trailingslashit( wp_get_upload_dir()['subdir'] );
-		$file_path   = $upload_path . $file_name;
-
-		$check_file_name = $this->validate_s3_key( $file_path );
-		if ( is_wp_error( $check_file_name ) ) {
-			$file['error'] = $check_file_name->get_error_message();
-
-			return $file;
-		}
-
-		$check_length = $this->validate_file_path_length( $file_path );
-		if ( is_wp_error( $check_length ) ) {
-			$file['error'] = $check_length->get_error_message();
-
-			return $file;
-		}
-
-		return $file;
-	}
-
-	/**
-	 * Check if file path in within the allowed length.
-	 *
-	 * @param   string   $file_path   Path of file within /wp-content/uploads folder
-	 */
-	protected function validate_file_path_length( $file_path ) {
-		if ( mb_strlen( $file_path ) > $this->max_file_path_length ) {
-			return new WP_Error( 'path-too-long', sprintf( 'The file name and path cannot exceed %d characters. Please rename the file to something shorter and try again.', $this->max_file_path_length ) );
-		}
-
-		return true;
-	}
-
-	/**
-	 * Check if file path uses S3 safe characters.
-	 *
-	 * @since   1.0.0
-	 * @access  protected
-	 *
-	 * @param   string   $file_path   Path of file within /wp-content/uploads folder
-	 */
-	protected function validate_s3_key( $file_path ) {
-		// Match Safe characters from S3 object naming guidelines.
-		$pattern = '/^[a-zA-Z0-9()!*\'\/._-]+[^.]$/';
-		if ( ! preg_match($pattern, $filename) ) {
-			return new WP_Error( 'invalid-file-name', sprintf( 'The file name or path contains unsafe characters. Please rename the file to something safe for AWS S3 key names.', $file_path ) );
-		}
-
-		return true;
-	}
-
-	/**
 	 * Make sure the returned filename is allowed on all file systems.
 	 *
-	 * @param string  $file_name
+	 * @param string  $text
 	 *
 	 * @return string Transliterated filename
 	 */
-	public function sanitize_filename( $file_name ) {
-		if ( 'ASCII' !== mb_detect_encoding( $file_name ) ) {
+	public function sanitize_filename( $text ) {
+		$text_encoding = mb_detect_encoding( $text );
+		if ( 'ASCII' !== $text_encoding ) {
 			// convert $text to ASCII
-			$step1 = iconv( mb_detect_encoding( $file_name ), 'ASCII//TRANSLIT', $file_name );
+			$step1 = iconv( $text_encoding, 'ASCII//TRANSLIT', $text );
 			// replace spaces and unknown characters with hyphens
 			$step2 = sanitize_file_name( $step1 );
-			$file_name = $step2;
+			$text = $step2;
 		}
 
-		return $file_name;
+		return $text;
 	}
 
 	/**
