@@ -134,10 +134,6 @@ class Mountpoint_S3_Filesystem {
 		 */
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-wp-filesystem-mountpoint-s3.php';
 
-		/**
-		 * The class responsible for defining all actions that occur in the admin area.
-		 */
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-mountpoint-s3-filesystem-admin.php';
 
 		/**
 		 * The class responsible for defining all actions that occur in the public-facing
