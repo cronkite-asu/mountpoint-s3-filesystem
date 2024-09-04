@@ -64,7 +64,7 @@ class Mountpoint_S3_Filesystem {
 	 * @access   protected
 	 * @var      string    $filesystem_method    The filesystem to use.
 	 */
-	protected $filesystem_method = 'MountpointS3';
+	protected $filesystem_method = 'mountpoints3';
 
 	/**
 	 * Max length allowed for file paths in the Files Service.
