@@ -40,6 +40,7 @@ class WP_Filesystem_Mountpoint_S3 extends WP_Filesystem_Base {
 	 */
 	private function get_transport_for_path( $filename ) {
 		// Uploads paths use Mountpoint S3.
+		error_log(__FUNCTION__ . ": filename = $filename");
 		if ( $this->is_uploads_path( $filename ) ) {
 			return $this->uploads;
 		}
@@ -48,8 +49,11 @@ class WP_Filesystem_Mountpoint_S3 extends WP_Filesystem_Base {
 	}
 
 	private function is_uploads_path( $file_path ) {
+		error_log(__FUNCTION__ . ": file_path = $file_path");
 		$upload_dir  = wp_get_upload_dir();
+		error_log(__FUNCTION__ . ": upload_dir = $upload_dir");
 		$upload_base = $upload_dir['basedir'];
+		error_log(__FUNCTION__ . ": upload_base = $upload_base");
 
 		return 0 === strpos( $file_path, $upload_base );
 	}
