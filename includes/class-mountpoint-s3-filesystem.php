@@ -179,6 +179,7 @@ class Mountpoint_S3_Filesystem {
 	 * @access   private
 	 */
 	private function set_filesystem() {
+		error_log(__FUNCTION__ );
 		if ( ! defined( 'WP_RUN_CORE_TESTS' ) || ! WP_RUN_CORE_TESTS ) {
 			$this->loader->add_filter( 'filesystem_method', $this, 'get_filesystem_method', PHP_INT_MAX );
 		}
@@ -306,6 +307,7 @@ class Mountpoint_S3_Filesystem {
 	 * @return    string    The filesystem method.
 	 */
 	public function get_filesystem_method() {
+		error_log(__FUNCTION__ . ": filesystem_method = $this->filesystem_method");
 		return $this->filesystem_method; // The Mountpoint_S3 base class transparently handles using the direct filesystem as well as Mountpoint S3.
 	}
 
@@ -316,6 +318,8 @@ class Mountpoint_S3_Filesystem {
 	 * @return    string    The filesystem method file.
 	 */
 	public function get_filesystem_method_file( $file, $method ) {
+		error_log(__FUNCTION__ . ": file = $file");
+		error_log(__FUNCTION__ . ": method = $method");
 		if ( $this->filesystem_method === $method ) {
 			$file = plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-wp-filesystem-mountpoint-s3.php';
 		}
@@ -332,6 +336,7 @@ class Mountpoint_S3_Filesystem {
 	 * @return array The filled credentials
 	 */
 	public function get_filesystem_credentials( $credentials, $form_post, $type ) {
+		error_log(__FUNCTION__ . ": type = $type");
 		// Handle the default `''` case which we'll override thanks to the `filesystem_method` filter.
 		if ( '' === $type || $this->filesystem_method === $type ) {
 			if ( defined( 'WORDPRESS_S3_FS' ) && true === WORDPRESS_S3_FS ) {
