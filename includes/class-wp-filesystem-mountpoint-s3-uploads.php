@@ -15,7 +15,7 @@ class WP_Filesystem_MountpointS3_Uploads extends WP_Filesystem_Direct {
 	 * @param mixed $arg Not used.
 	 */
 	public function __construct( $arg ) {
-		$this->method = 'mountpoint-s3-upload';
+		$this->method = 'mountpoints3-upload';
 		$this->errors = new WP_Error();
 	}
 
