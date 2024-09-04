@@ -51,15 +51,6 @@ if ( ! defined( 'WORDPRESS_S3_FS' ) ) {
 }
 
 /**
- * The code that runs during plugin activation.
- * This action is documented in includes/class-mountpoint-s3-filesystem-activator.php
- */
-function activate_mountpoint_s3_filesystem() {
-	require_once plugin_dir_path( __FILE__ ) . 'includes/class-mountpoint-s3-filesystem-activator.php';
-	Mountpoint_S3_Filesystem_Activator::activate();
-}
-
-/**
  * The code that runs during plugin deactivation.
  * This action is documented in includes/class-mountpoint-s3-filesystem-deactivator.php
  */
@@ -68,7 +59,6 @@ function deactivate_mountpoint_s3_filesystem() {
 	Mountpoint_S3_Filesystem_Deactivator::deactivate();
 }
 
-register_activation_hook( __FILE__, 'activate_mountpoint_s3_filesystem' );
 register_deactivation_hook( __FILE__, 'deactivate_mountpoint_s3_filesystem' );
 
 /**
