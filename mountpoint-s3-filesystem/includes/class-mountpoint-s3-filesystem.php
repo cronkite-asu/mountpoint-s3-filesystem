@@ -93,7 +93,6 @@ class Mountpoint_S3_Filesystem {
 		$this->plugin_name = 'mountpoint-s3-filesystem';
 
 		$this->load_dependencies();
-		$this->set_locale();
 		$this->set_filesystem();
 
 	}
@@ -104,7 +103,6 @@ class Mountpoint_S3_Filesystem {
 	 * Include the following files that make up the plugin:
 	 *
 	 * - Mountpoint_S3_Filesystem_Loader. Orchestrates the hooks of the plugin.
-	 * - Mountpoint_S3_Filesystem_i18n. Defines internationalization functionality.
 	 *
 	 * Create an instance of the loader which will be used to register the hooks
 	 * with WordPress.
@@ -121,12 +119,6 @@ class Mountpoint_S3_Filesystem {
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-mountpoint-s3-filesystem-loader.php';
 
 		/**
-		 * The class responsible for defining internationalization functionality
-		 * of the plugin.
-		 */
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-mountpoint-s3-filesystem-i18n.php';
-
-		/**
 		 * The file responsible for defining filesystem functionality
 		 * of the plugin.
 		 */
@@ -135,23 +127,6 @@ class Mountpoint_S3_Filesystem {
 		require_once ABSPATH . 'wp-admin/includes/class-wp-filesystem-base.php';
 
 		$this->loader = new Mountpoint_S3_Filesystem_Loader();
-
-	}
-
-	/**
-	 * Define the locale for this plugin for internationalization.
-	 *
-	 * Uses the Mountpoint_S3_Filesystem_i18n class in order to set the domain and to register the hook
-	 * with WordPress.
-	 *
-	 * @since    1.0.0
-	 * @access   private
-	 */
-	private function set_locale() {
-
-		$plugin_i18n = new Mountpoint_S3_Filesystem_i18n();
-
-		$this->loader->add_action( 'plugins_loaded', $plugin_i18n, 'load_plugin_textdomain' );
 
 	}
 
