@@ -8,13 +8,13 @@ require_once ABSPATH . 'wp-admin/includes/class-wp-filesystem-direct.php';
 
 require_once __DIR__ . '/class-wp-filesystem-mountpoint-s3-uploads.php';
 
-class WP_Filesystem_Mountpoint_S3 extends WP_Filesystem_Base {
+class WP_Filesystem_MountpointS3 extends WP_Filesystem_Base {
 
 	/** @var WP_Filesystem_Direct */
 	private $direct;
 
 	/**
-	 * @param array $dependencies Array that contains an instance of `WP_Filesystem_Mountpoint_S3_Uploads` and `WP_Filesystem_Direct`.
+	 * @param array $dependencies Array that contains an instance of `WP_Filesystem_MountpointS3_Uploads` and `WP_Filesystem_Direct`.
 	 */
 	public function __construct( $dependencies ) {
 		$this->method = 'mountpoint-s3';
@@ -36,7 +36,7 @@ class WP_Filesystem_Mountpoint_S3 extends WP_Filesystem_Base {
 	 *
 	 * @param $filename
 	 *
-	 * @return WP_Filesystem_Mountpoint_S3_Uploads|WP_Filesystem_Direct
+	 * @return WP_Filesystem_MountpointS3_Uploads|WP_Filesystem_Direct
 	 */
 	private function get_transport_for_path( $filename ) {
 		// Uploads paths use Mountpoint S3.

@@ -5,7 +5,7 @@
 require_once ABSPATH . 'wp-admin/includes/class-wp-filesystem-base.php';
 require_once ABSPATH . 'wp-admin/includes/class-wp-filesystem-direct.php';
 
-class WP_Filesystem_Mountpoint_S3_Uploads extends WP_Filesystem_Direct {
+class WP_Filesystem_MountpointS3_Uploads extends WP_Filesystem_Direct {
 
 	/**
 	 * Constructor.

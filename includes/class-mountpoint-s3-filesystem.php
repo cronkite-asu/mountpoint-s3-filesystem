@@ -64,7 +64,7 @@ class Mountpoint_S3_Filesystem {
 	 * @access   protected
 	 * @var      string    $filesystem_method    The filesystem to use.
 	 */
-	protected $filesystem_method = 'Mountpoint_S3';
+	protected $filesystem_method = 'MountpointS3';
 
 	/**
 	 * Max length allowed for file paths in the Files Service.
@@ -297,7 +297,7 @@ class Mountpoint_S3_Filesystem {
 	 *      $wp_filesystem->put_contents( wp_get_upload_dir()['basedir'] . '/test.txt', 'this is a test file');
 	 *
 	 */
-	// Note: we're using `PHP_INT_MAX` for the priority because we want our `WP_Filesystem_Mountpoint_S3` class to always take precedence.
+	// Note: we're using `PHP_INT_MAX` for the priority because we want our `WP_Filesystem_MountpointS3` class to always take precedence.
 
 	/**
 	 * Retrieve the filesystem method of the plugin.
@@ -337,7 +337,7 @@ class Mountpoint_S3_Filesystem {
 		if ( '' === $type || $this->filesystem_method === $type ) {
 			if ( defined( 'WORDPRESS_S3_FS' ) && true === WORDPRESS_S3_FS ) {
 				$credentials = [
-					new WP_Filesystem_Mountpoint_S3_Uploads( null ),
+					new WP_Filesystem_MountpointS3_Uploads( null ),
 					new WP_Filesystem_Direct( null ),
 				];
 			} else {
