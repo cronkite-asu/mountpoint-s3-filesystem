@@ -51,7 +51,6 @@ class WP_Filesystem_MountpointS3 extends WP_Filesystem_Base {
 	private function is_uploads_path( $file_path ) {
 		error_log(__FUNCTION__ . ": file_path = $file_path");
 		$upload_dir  = wp_get_upload_dir();
-		error_log(__FUNCTION__ . ": upload_dir = $upload_dir");
 		$upload_base = $upload_dir['basedir'];
 		error_log(__FUNCTION__ . ": upload_base = $upload_base");
 
