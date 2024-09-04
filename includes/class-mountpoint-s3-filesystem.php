@@ -316,7 +316,6 @@ class Mountpoint_S3_Filesystem {
 	 * @return    string    The filesystem method file.
 	 */
 	public function get_filesystem_method_file( $file, $method ) {
-		return $this->filesystem_method; // The Mountpoint_S3 base class transparently handles using the direct filesystem as well as Mountpoint S3.
 		if ( $this->filesystem_method === $method ) {
 			$file = plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-wp-filesystem-mountpoint-s3.php';
 		}
