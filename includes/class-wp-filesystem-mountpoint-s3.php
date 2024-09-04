@@ -17,7 +17,7 @@ class WP_Filesystem_MountpointS3 extends WP_Filesystem_Base {
 	 * @param array $dependencies Array that contains an instance of `WP_Filesystem_MountpointS3_Uploads` and `WP_Filesystem_Direct`.
 	 */
 	public function __construct( $dependencies ) {
-		$this->method = 'mountpoint-s3';
+		$this->method = 'mountpoints3';
 		$this->errors = new WP_Error();
 
 		if ( ! is_array( $dependencies ) || 2 !== count( $dependencies ) ) {
