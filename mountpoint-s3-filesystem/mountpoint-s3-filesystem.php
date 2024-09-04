@@ -51,17 +51,6 @@ if ( ! defined( 'WORDPRESS_S3_FS' ) ) {
 }
 
 /**
- * The code that runs during plugin deactivation.
- * This action is documented in includes/class-mountpoint-s3-filesystem-deactivator.php
- */
-function deactivate_mountpoint_s3_filesystem() {
-	require_once plugin_dir_path( __FILE__ ) . 'includes/class-mountpoint-s3-filesystem-deactivator.php';
-	Mountpoint_S3_Filesystem_Deactivator::deactivate();
-}
-
-register_deactivation_hook( __FILE__, 'deactivate_mountpoint_s3_filesystem' );
-
-/**
  * The core plugin class that is used to define internationalization,
  * admin-specific hooks, and public-facing site hooks.
  */
