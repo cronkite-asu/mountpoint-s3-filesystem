@@ -94,9 +94,9 @@ class Mountpoint_S3_Filesystem {
 
 		$this->load_dependencies();
 		$this->set_locale();
-		$this->set_filesystem();
 		$this->define_admin_hooks();
 		$this->define_public_hooks();
+		$this->set_filesystem();
 
 	}
 
