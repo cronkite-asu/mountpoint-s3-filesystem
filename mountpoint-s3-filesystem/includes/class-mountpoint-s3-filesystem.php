@@ -105,7 +105,6 @@ class Mountpoint_S3_Filesystem {
 	 *
 	 * - Mountpoint_S3_Filesystem_Loader. Orchestrates the hooks of the plugin.
 	 * - Mountpoint_S3_Filesystem_i18n. Defines internationalization functionality.
-	 * - Mountpoint_S3_Filesystem_Admin. Defines all hooks for the admin area.
 	 * - Mountpoint_S3_Filesystem_Public. Defines all hooks for the public side of the site.
 	 *
 	 * Create an instance of the loader which will be used to register the hooks
