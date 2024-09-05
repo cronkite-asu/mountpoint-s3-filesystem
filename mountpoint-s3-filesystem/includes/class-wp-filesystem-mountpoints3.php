@@ -58,6 +58,13 @@ class WP_Filesystem_MountpointS3 extends WP_Filesystem_Base {
 		return $this->direct;
 	}
 
+	/**
+	 * Test if file path is in uploads directory.
+	 *
+	 * @param $file_path
+	 *
+	 * @return bool
+	 */
 	private function is_uploads_path( $file_path ) {
 		error_log(__FUNCTION__ . ": file_path = $file_path");
 		$upload_dir  = wp_get_upload_dir();
