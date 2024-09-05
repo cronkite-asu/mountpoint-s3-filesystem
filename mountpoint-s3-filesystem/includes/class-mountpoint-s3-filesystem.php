@@ -163,6 +163,7 @@ class Mountpoint_S3_Filesystem {
 	 */
 	private function set_filesystem() {
 		error_log( __FUNCTION__ . ': ' . get_filesystem_method() );
+		// Note: we're using `PHP_INT_MAX` for the priority because we want our `WP_Filesystem_MountpointS3` class to always take precedence.
 		if ( ! defined( 'WP_RUN_CORE_TESTS' ) || ! WP_RUN_CORE_TESTS ) {
 			$this->loader->add_filter( 'filesystem_method', $this, 'get_filesystem_method', PHP_INT_MAX, 4 );
 		}
@@ -262,7 +263,6 @@ class Mountpoint_S3_Filesystem {
 	 *      $wp_filesystem->put_contents( wp_get_upload_dir()['basedir'] . '/test.txt', 'this is a test file');
 	 *
 	 */
-	// Note: we're using `PHP_INT_MAX` for the priority because we want our `WP_Filesystem_MountpointS3` class to always take precedence.
 
 	/**
 	 * Retrieve the filesystem method of the plugin.
