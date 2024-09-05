@@ -23,6 +23,9 @@ class WP_Filesystem_MountpointS3 extends WP_Filesystem_Base {
 	/** @var WP_Filesystem_Direct */
 	private $direct;
 
+	/** @var WP_Filesystem_Direct or WP_Filesystem_MountpointS3_Uploads */
+	private $uploads;
+
 	/**
 	 * @param array $dependencies Array that contains an instance of `WP_Filesystem_MountpointS3_Uploads` and `WP_Filesystem_Direct`.
 	 */
