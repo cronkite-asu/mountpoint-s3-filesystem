@@ -30,7 +30,7 @@ class WP_Filesystem_MountpointS3_Uploads extends WP_Filesystem_Direct {
 	 * @return bool Whether operation was successful or not.
 	 */
 	public function touch( $file, $time = 0, $atime = 0 ) {
-		return $this->handle_unimplemented_method( __METHOD__, true );
+		return $this->handle_unimplemented_method( __METHOD__ );
 	}
 
 	/**
@@ -43,7 +43,7 @@ class WP_Filesystem_MountpointS3_Uploads extends WP_Filesystem_Direct {
 	 * @return bool Returns true on success or false on failure.
 	 */
 	public function chgrp( $file, $group, $recursive = false ) {
-		return $this->handle_unimplemented_method( __METHOD__, true );
+		return $this->handle_unimplemented_method( __METHOD__ );
 	}
 
 	/**
@@ -57,7 +57,7 @@ class WP_Filesystem_MountpointS3_Uploads extends WP_Filesystem_Direct {
 	 * @return bool Returns true on success or false on failure.
 	 */
 	public function chmod( $file, $mode = false, $recursive = false ) {
-		return $this->handle_unimplemented_method( __METHOD__, true );
+		return $this->handle_unimplemented_method( __METHOD__ );
 	}
 
 	/**
@@ -71,17 +71,17 @@ class WP_Filesystem_MountpointS3_Uploads extends WP_Filesystem_Direct {
 	 * @return bool Returns true on success or false on failure.
 	 */
 	public function chown( $file, $owner, $recursive = false ) {
-		return $this->handle_unimplemented_method( __METHOD__, true );
+		return $this->handle_unimplemented_method( __METHOD__ );
 	}
 
-	protected function handle_unimplemented_method( $method, $return_value = false ) {
+	protected function handle_unimplemented_method( $method, $return_value = true ) {
 		/* Translators: unsupported method name */
 		$error_msg = sprintf( __( 'The `%s` method is not implemented and/or not supported.' ), $method );
 
 		$this->errors->add( 'unimplemented-method', $error_msg );
 
 		// phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_trigger_error, WordPress.Security.EscapeOutput.OutputNotEscaped
-		trigger_error( $error_msg, E_USER_WARNING );
+		trigger_error( $error_msg, E_USER_NOTICE );
 
 		return $return_value;
 	}
