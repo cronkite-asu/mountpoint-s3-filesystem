@@ -119,6 +119,13 @@ class Mountpoint_S3_Filesystem {
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-mountpoint-s3-filesystem-loader.php';
 
 		/**
+		 * WordPress's filesystem API class.
+		 *
+		 * We need to make sure this is loaded before we can load the custom api.
+		 */
+		require_once( ABSPATH . 'wp-admin/includes/file.php' );
+
+		/**
 		 * WordPress's base filesystem API class.
 		 *
 		 * We need to make sure this is loaded before we can load the custom api.
