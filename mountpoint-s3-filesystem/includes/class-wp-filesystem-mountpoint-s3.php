@@ -1,12 +1,25 @@
 <?php
+/**
+ * A class to extend the WordPress filesystem API to use the  Mountpoint S3 filesystem.
+ *
+ * @since 1.0.0
+ */
 
 # copied from https://github.com/Automattic/vip-go-mu-plugins/blob/develop/files/class-wp-filesystem-vip.php
-#
+# and https://github.com/JDGrimes/wp-filesystem-mock/blob/master/src/wp-filesystem-mock.php
 require_once ABSPATH . 'wp-admin/includes/file.php';
-require_once ABSPATH . 'wp-admin/includes/class-wp-filesystem-base.php';
 require_once ABSPATH . 'wp-admin/includes/class-wp-filesystem-direct.php';
 
 require_once __DIR__ . '/class-wp-filesystem-mountpoint-s3-uploads.php';
+
+/**
+ * Shim between WordPress filesystem API and the Mountpoint S3 filesystem.
+ *
+ * Extends the WordPress filesystem API, converting it to use the mock filesystem
+ * instead.
+ *
+ * @since 1.0.0
+ */
 
 class WP_Filesystem_MountpointS3 extends WP_Filesystem_Base {
 
