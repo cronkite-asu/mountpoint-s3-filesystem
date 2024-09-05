@@ -289,7 +289,7 @@ class Mountpoint_S3_Filesystem {
 		if ( $this->filesystem_method === $method ) {
 			$file = plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-wp-filesystem-mountpoint-s3.php';
 		}
-		return $file;
+		return [$file, $method];
 	}
 
 	/**
