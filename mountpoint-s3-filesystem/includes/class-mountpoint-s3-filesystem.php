@@ -271,7 +271,7 @@ class Mountpoint_S3_Filesystem {
 	 * @return    string    The filesystem method.
 	 */
 	public function get_filesystem_method($method, $args, $context, $allow_relaxed_file_ownership) {
-		error_log(__FUNCTION__ . ": filesystem_method = $this->filesystem_method");
+		error_log(__FUNCTION__ . ": filesystem_method = $method");
 		return $this->filesystem_method; // The Mountpoint_S3 base class transparently handles using the direct filesystem as well as Mountpoint S3.
 	}
 
