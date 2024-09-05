@@ -144,10 +144,6 @@ class Mountpoint_S3_Filesystem {
 			$this->loader->add_filter( 'filesystem_method', $this, 'get_filesystem_method', PHP_INT_MAX );
 		}
 
-		// ensure we always upload with year month folder layouts
-		add_filter( 'pre_option_uploads_use_yearmonth_folders', function () {
-			return '1';
-		} );
 		$this->loader->add_filter( 'request_filesystem_credentials', $this, 'get_filesystem_credentials', PHP_INT_MAX, 3 );
 		$this->loader->add_filter( 'sanitize_file_name', $this, 'sanitize_filename' );
 
