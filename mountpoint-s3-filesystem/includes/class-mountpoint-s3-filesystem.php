@@ -144,8 +144,6 @@ class Mountpoint_S3_Filesystem {
 		 */
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-wp-filesystem-mountpoints3.php';
 
-		$this->loader = new Mountpoint_S3_Filesystem_Loader();
-
 		/**
 		 * The filesystem API shim that uses Mountpoint S3 filesystems directly.
 		 */
