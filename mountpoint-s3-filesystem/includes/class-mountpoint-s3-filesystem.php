@@ -113,22 +113,36 @@ class Mountpoint_S3_Filesystem {
 	private function load_dependencies() {
 
 		/**
-		 * WordPress's base filesystem API class.
-		 *
-		 * We need to make sure this is loaded before we can load the class.
-		 */
-		require_once( ABSPATH . 'wp-admin/includes/class-wp-filesystem-base.php' );
-
-		/**
 		 * The class responsible for orchestrating the actions and filters of the
 		 * core plugin.
 		 */
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-mountpoint-s3-filesystem-loader.php';
 
 		/**
-		 * TThe filesystem API shim that uses Mountpoint S3 filesystems
+		 * WordPress's base filesystem API class.
+		 *
+		 * We need to make sure this is loaded before we can load the custom api.
+		 */
+		require_once( ABSPATH . 'wp-admin/includes/class-wp-filesystem-base.php' );
+
+		/**
+		 * WordPress's direct filesystem API class.
+		 *
+		 * We need to make sure this is loaded before we can load the custom api.
+		 */
+		require_once( ABSPATH . 'wp-admin/includes/class-wp-filesystem-direct.php' );
+
+		/**
+		 * The filesystem API shim that uses Mountpoint S3 filesystems.
 		 */
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-wp-filesystem-mountpoint-s3.php';
+
+		$this->loader = new Mountpoint_S3_Filesystem_Loader();
+
+		/**
+		 * The filesystem API shim that uses Mountpoint S3 filesystems directly.
+		 */
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-wp-filesystem-mountpoint-s3-uploads.php';
 
 		$this->loader = new Mountpoint_S3_Filesystem_Loader();
 
