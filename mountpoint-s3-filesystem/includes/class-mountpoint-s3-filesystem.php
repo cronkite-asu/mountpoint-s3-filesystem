@@ -142,14 +142,14 @@ class Mountpoint_S3_Filesystem {
 		/**
 		 * The filesystem API shim that uses Mountpoint S3 filesystems.
 		 */
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-wp-filesystem-mountpoint-s3.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-wp-filesystem-mountpoints3.php';
 
 		$this->loader = new Mountpoint_S3_Filesystem_Loader();
 
 		/**
 		 * The filesystem API shim that uses Mountpoint S3 filesystems directly.
 		 */
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-wp-filesystem-mountpoint-s3-uploads.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-wp-filesystem-mountpoints3-uploads.php';
 
 		$this->loader = new Mountpoint_S3_Filesystem_Loader();
 
@@ -287,7 +287,7 @@ class Mountpoint_S3_Filesystem {
 		error_log(__FUNCTION__ . ": file = $file");
 		error_log(__FUNCTION__ . ": method = $method");
 		if ( $this->filesystem_method === $method ) {
-			$file = plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-wp-filesystem-mountpoint-s3.php';
+			$file = plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-wp-filesystem-mountpoints3.php';
 		}
 		return [$file, $method];
 	}
