@@ -23,7 +23,7 @@ class WP_Filesystem_MountpointS3 extends WP_Filesystem_Base {
 	/**
 	 * The direct filesystem.
 	 *
-	 * @since 0.1.0
+	 * @since 1.0.0
 	 *
 	 * @var WP_Filesystem_Direct
 	 */
@@ -32,7 +32,7 @@ class WP_Filesystem_MountpointS3 extends WP_Filesystem_Base {
 	/**
 	 * The uploads filesystem.
 	 *
-	 * @since 0.1.0
+	 * @since 1.0.0
 	 *
 	 * @var WP_Filesystem_Direct|WP_Filesystem_MountpointS3_Uploads
 	 */
