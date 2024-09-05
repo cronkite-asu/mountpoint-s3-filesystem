@@ -281,7 +281,7 @@ class Mountpoint_S3_Filesystem {
 	 * Retrieve the filesystem method file path.
 	 *
 	 * @since     1.0.0
-	 * @return    string    The filesystem method file.
+	 * @return    array    The filesystem method file and method.
 	 */
 	public function get_filesystem_method_file( $file, $method ) {
 		error_log(__FUNCTION__ . ": file = $file");
