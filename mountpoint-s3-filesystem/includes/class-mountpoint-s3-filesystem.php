@@ -163,6 +163,7 @@ class Mountpoint_S3_Filesystem {
 	 */
 	private function set_filesystem() {
 		error_log( __FUNCTION__ . ': ' . get_filesystem_method() );
+		error_log( __FUNCTION__ . ' WP_RUN_CORE_TESTS: ' . WP_RUN_CORE_TESTS );
 		if ( ! defined( 'WP_RUN_CORE_TESTS' ) || ! WP_RUN_CORE_TESTS ) {
 			$this->loader->add_filter( 'filesystem_method', $this, 'get_filesystem_method', PHP_INT_MAX );
 		}
