@@ -42,7 +42,7 @@
  *      $wp_filesystem->put_contents( wp_get_upload_dir()['basedir'] . '/test.txt', 'this is a test file');
  *
  */
-// Note: we're using `PHP_INT_MAX` for the priority because we want our `WP_Filesystem_VIP` class to always take precedence.
+// Note: we're using `PHP_INT_MAX` for the priority because we want our `WP_Filesystem_MountpointS3` class to always take precedence.
 
 // If this file is called directly, abort.
 if ( ! defined( 'WPINC' ) ) {
