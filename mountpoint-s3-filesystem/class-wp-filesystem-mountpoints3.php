@@ -18,6 +18,12 @@
  * @package    Mountpoint_S3_Filesystem
  */
 
+require_once ABSPATH . 'wp-admin/includes/file.php';
+require_once ABSPATH . 'wp-admin/includes/class-wp-filesystem-base.php';
+require_once ABSPATH . 'wp-admin/includes/class-wp-filesystem-direct.php';
+
+require_once __DIR__ . '/class-wp-filesystem-mountpoints3-uploads.php';
+
 class WP_Filesystem_MountpointS3 extends WP_Filesystem_Base {
 
 	/**
