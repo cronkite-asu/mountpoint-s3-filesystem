@@ -74,9 +74,9 @@ if ( ! defined( 'WORDPRESS_S3_FS' ) ) {
 }
 
 if ( ! defined( 'WP_RUN_CORE_TESTS' ) || ! WP_RUN_CORE_TESTS ) {
-	add_filter( 'filesystem_method', function () {
+	add_filter( 'filesystem_method', function ($method, $args, $context, $allow_relaxed_file_ownership) {
 		return MOUNTPOINT_S3_FILESYSTEM_METHOD; // The Mountpoint S3 base class transparently handles using the direct filesystem as well as the Mountpoint S3 File API
-	}, PHP_INT_MAX );
+	}, PHP_INT_MAX, 4 );
 }
 
 add_filter( 'request_filesystem_credentials', function ( $credentials, $form_post, $type ) {
