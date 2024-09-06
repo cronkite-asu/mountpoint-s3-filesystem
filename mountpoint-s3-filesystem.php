@@ -75,7 +75,6 @@ if ( ! defined( 'WORDPRESS_S3_FS' ) ) {
 
 if ( ! defined( 'WP_RUN_CORE_TESTS' ) || ! WP_RUN_CORE_TESTS ) {
 	add_filter( 'filesystem_method', function () {
-		error_log(__FUNCTION__ . ": filesystem_method = $method");
 		return MOUNTPOINT_S3_FILESYSTEM_METHOD; // The Mountpoint S3 base class transparently handles using the direct filesystem as well as the Mountpoint S3 File API
 	}, PHP_INT_MAX );
 }
@@ -106,7 +105,7 @@ add_filter( 'filesystem_method_file', function ( $file, $method ) {
 	error_log(__FUNCTION__ . ": file = $file");
 	error_log(__FUNCTION__ . ": method = $method");
 	if ( MOUNTPOINT_S3_FILESYSTEM_METHOD === $method ) {
-		$file = __DIR__ . 'mountpoint-s3-filesystem/class-wp-filesystem-mountpoints3.php';
+		$file = __DIR__ . '/mountpoint-s3-filesystem/class-wp-filesystem-mountpoints3.php';
 	}
 	return $file;
 }, PHP_INT_MAX, 2 );
@@ -130,4 +129,4 @@ add_filter( 'pre_option_uploads_use_yearmonth_folders', function () {
 	return '1';
 } );
 
-error_log( __FUNCTION__ . ': ' . get_filesystem_method() );
+error_log( 'filesystem_method: ' . get_filesystem_method() );
