@@ -130,3 +130,7 @@ add_filter( 'pre_option_uploads_use_yearmonth_folders', function () {
 } );
 
 error_log( 'filesystem_method: ' . get_filesystem_method() );
+if ( class_exists( "WP_Filesystem_" . MOUNTPOINT_S3_FILESYSTEM_METHOD) ) {
+  error_log( 'Class ' . "WP_Filesystem_" . MOUNTPOINT_S3_FILESYSTEM_METHOD . ' Exists!' );
+
+}
