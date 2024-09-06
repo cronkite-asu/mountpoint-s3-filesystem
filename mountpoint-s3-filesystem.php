@@ -80,7 +80,7 @@ if ( ! defined( 'WP_RUN_CORE_TESTS' ) || ! WP_RUN_CORE_TESTS ) {
 }
 
 add_filter( 'request_filesystem_credentials', function ( $credentials, $form_post, $type ) {
-	error_log(__FUNCTION__ . ": type = $type");
+	error_log("request_filesystem_credentials: type = $type");
 	// Handle the default `''` case which we'll override thanks to the `filesystem_method` filter.
 	if ( '' === $type || MOUNTPOINT_S3_FILESYSTEM_METHOD === $type ) {
 		if ( true === WORDPRESS_S3_FS ) {
@@ -102,8 +102,8 @@ add_filter( 'request_filesystem_credentials', function ( $credentials, $form_pos
 // Should't need this because we `require`-ed the class already.
 // But just in case :)
 add_filter( 'filesystem_method_file', function ( $file, $method ) {
-	error_log(__FUNCTION__ . ": file = $file");
-	error_log(__FUNCTION__ . ": method = $method");
+	error_log("filesystem_method_file: file = $file");
+	error_log("filesystem_method_file: method = $method");
 	if ( MOUNTPOINT_S3_FILESYSTEM_METHOD === $method ) {
 		$file = __DIR__ . '/mountpoint-s3-filesystem/class-wp-filesystem-mountpoints3.php';
 	}
