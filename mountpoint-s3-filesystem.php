@@ -52,8 +52,8 @@ if ( ! defined( 'WPINC' ) ) {
 require_once ABSPATH . 'wp-admin/includes/class-wp-filesystem-base.php';
 require_once ABSPATH . 'wp-admin/includes/class-wp-filesystem-direct.php';
 
-require_once __DIR__ . 'mountpoint-s3-filesystem/class-wp-filesystem-mountpoints3.php';
-require_once __DIR__ . 'mountpoint-s3-filesystem/class-wp-filesystem-mountpoints3-uploads.php';
+require_once __DIR__ . '/mountpoint-s3-filesystem/class-wp-filesystem-mountpoints3.php';
+require_once __DIR__ . '/mountpoint-s3-filesystem/class-wp-filesystem-mountpoints3-uploads.php';
 
 /**
  * Currently plugin version.
