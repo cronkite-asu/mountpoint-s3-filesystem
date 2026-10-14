@@ -44,4 +44,4 @@ The distributable plugin consists of the root bootstrap file and the `mountpoint
 
 ## License
 
-GPL-2.0-or-later. See [`mountpoint-s3-filesystem/LICENSE.txt`](mountpoint-s3-filesystem/LICENSE.txt).
+GPL-2.0-or-later. See [`LICENSE`](LICENSE).

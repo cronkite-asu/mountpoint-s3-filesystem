@@ -8,19 +8,19 @@
  * registers the activation and deactivation functions, and defines a function
  * that starts the plugin.
  *
- * @link              https://local.local
+ * @link              https://github.com/cronkite-asu/mountpoint-s3-filesystem
  * @since             1.0.0
  * @package           Mountpoint_S3_Filesystem
  *
  * @wordpress-plugin
  * Plugin Name:       Mountpoint S3 Filesystem
- * Plugin URI:        https://local.local
+ * Plugin URI:        https://github.com/cronkite-asu/mountpoint-s3-filesystem
  * Description:       Write files to AWS S3 as a directly mounted filesystem.
  * Version:           1.0.0
  * Requires at least: 5.2
  * Requires PHP:      7.2
  * Author:            Jeremy Leggat
- * Author URI:        https://local.local/
+ * Author URI:        https://github.com/onecooltaco
  * License:           GPL-2.0+
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
  * Text Domain:       mountpoint-s3-filesystem
